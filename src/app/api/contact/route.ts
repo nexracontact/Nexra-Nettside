@@ -42,10 +42,19 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-      throw new Error('Kunne ikke lagre i Google Sheets')
+      const errorText = await response.text()
+      console.error('Google Apps Script error:', errorText)
+      throw new Error(`Kunne ikke lagre i Google Sheets: ${response.status}`)
     }
 
-    const result = await response.json()
+    let result
+    try {
+      result = await response.json()
+    } catch (e) {
+      // Hvis response ikke er JSON, prøv som tekst
+      const text = await response.text()
+      result = { success: true, message: text }
+    }
 
     return NextResponse.json(
       { success: true, data: result },
