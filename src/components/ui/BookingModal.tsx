@@ -37,7 +37,7 @@ export default function BookingModal() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     const newErrors: Partial<FormData> = {}
@@ -59,8 +59,22 @@ export default function BookingModal() {
       return
     }
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Kunne ikke sende melding')
+      }
+
+      // Suksess!
       setIsSubmitted(true)
       setFormData({
         name: '',
@@ -70,7 +84,10 @@ export default function BookingModal() {
         message: '',
         service: '',
       })
-    }, 500)
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('Kunne ikke sende melding. Prøv igjen eller send e-post til nexracontact@gmail.com')
+    }
   }
 
   const closeModal = () => {
