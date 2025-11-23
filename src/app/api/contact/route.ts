@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,64 +16,54 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Hent Google Apps Script Web App URL fra miljøvariabel
-    const googleScriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL
-
-    if (!googleScriptUrl) {
-      console.error('GOOGLE_APPS_SCRIPT_URL is not set')
-      // Midlertidig: Returner suksess selv om Google Sheets ikke er satt opp
-      // Dette lar skjemaet fungere mens du setter opp Google Sheets
+    // Sjekk om Resend API key er satt
+    if (!process.env.RESEND_API_KEY) {
+      console.error('RESEND_API_KEY is not set')
       return NextResponse.json(
         { 
-          success: true, 
-          message: 'Melding mottatt. Google Sheets er ikke konfigurert ennå.',
-          warning: 'Kontaktformularet fungerer, men data lagres ikke i database. Send e-post til nexracontact@gmail.com for å motta meldingen.'
+          error: 'E-post-tjeneste er ikke konfigurert. Send e-post til nexracontact@gmail.com',
         },
-        { status: 200 }
+        { status: 500 }
       )
     }
 
-    // Send data til Google Apps Script
+    // Send e-post via Resend
     try {
-      const response = await fetch(googleScriptUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          company: company || '',
-          employees: employees || '',
-          message,
-          service: service || '',
-          timestamp: new Date().toISOString(),
-        }),
+      const emailContent = `
+Ny henvendelse fra kontaktformularet:
+
+Navn: ${name}
+E-post: ${email}
+Selskap: ${company || 'Ikke oppgitt'}
+Antall ansatte: ${employees || 'Ikke oppgitt'}
+Tjeneste: ${service || 'Ikke oppgitt'}
+
+Melding:
+${message}
+
+---
+Sendt: ${new Date().toLocaleString('no-NO')}
+      `.trim()
+
+      await resend.emails.send({
+        from: 'Nexra Kontaktformular <onboarding@resend.dev>', // Endre til din verifiserte domene senere
+        to: 'nexracontact@gmail.com',
+        replyTo: email,
+        subject: `Ny henvendelse fra ${name}${company ? ` - ${company}` : ''}`,
+        text: emailContent,
       })
 
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.error('Google Apps Script error:', errorText)
-        // Fortsett selv om Google Sheets feiler - returner suksess til brukeren
-        // men logg feilen for debugging
-      } else {
-        let result
-        try {
-          result = await response.json()
-        } catch (e) {
-          // Hvis response ikke er JSON, prøv som tekst
-          const text = await response.text()
-          result = { success: true, message: text }
-        }
-        console.log('Successfully saved to Google Sheets:', result)
-      }
-    } catch (fetchError) {
-      // Hvis fetch feiler (nettverksfeil, etc), logg det men returner suksess
-      console.error('Error calling Google Apps Script:', fetchError)
+      console.log('Email sent successfully via Resend')
+    } catch (emailError) {
+      console.error('Error sending email:', emailError)
+      return NextResponse.json(
+        { 
+          error: 'Kunne ikke sende e-post. Prøv igjen eller send direkte til nexracontact@gmail.com',
+        },
+        { status: 500 }
+      )
     }
 
-    // Returner alltid suksess til brukeren
-    // Data kan være lagret i Google Sheets eller ikke, men brukeren får bekreftelse
     return NextResponse.json(
       { 
         success: true, 
@@ -80,14 +73,11 @@ export async function POST(request: NextRequest) {
     )
   } catch (error) {
     console.error('Unexpected error:', error)
-    // Selv ved uventet feil, returner suksess for bedre brukeropplevelse
     return NextResponse.json(
       { 
-        success: true, 
-        message: 'Melding mottatt! Vi tar kontakt snart.',
-        note: 'Hvis du ikke hører fra oss, send e-post til nexracontact@gmail.com'
+        error: 'Noe gikk galt. Prøv igjen eller send e-post til nexracontact@gmail.com',
       },
-      { status: 200 }
+      { status: 500 }
     )
   }
 }
