@@ -66,7 +66,7 @@ export default function Hero() {
               Nexra
             </span>
             <br />
-            <span className="text-white">– Profesjonelle nettsider med AI-automasjon</span>
+            <span className="text-white">Profesjonelle nettsider med AI-automasjon</span>
           </motion.h1>
 
           <motion.p
@@ -97,15 +97,6 @@ export default function Hero() {
               className="w-full sm:w-auto"
             />
           </motion.div>
-
-          <motion.p
-            className="text-sm text-gray-400 mb-24"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-          >
-            Brukt av vekstorienterte bedrifter i 15+ bransjer
-          </motion.p>
         </motion.div>
       </div>
 
