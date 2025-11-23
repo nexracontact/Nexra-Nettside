@@ -31,46 +31,63 @@ export async function POST(request: NextRequest) {
     }
 
     // Send data til Google Apps Script
-    const response = await fetch(googleScriptUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        company: company || '',
-        employees: employees || '',
-        message,
-        service: service || '',
-        timestamp: new Date().toISOString(),
-      }),
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('Google Apps Script error:', errorText)
-      throw new Error(`Kunne ikke lagre i Google Sheets: ${response.status}`)
-    }
-
-    let result
     try {
-      result = await response.json()
-    } catch (e) {
-      // Hvis response ikke er JSON, prøv som tekst
-      const text = await response.text()
-      result = { success: true, message: text }
+      const response = await fetch(googleScriptUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          company: company || '',
+          employees: employees || '',
+          message,
+          service: service || '',
+          timestamp: new Date().toISOString(),
+        }),
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('Google Apps Script error:', errorText)
+        // Fortsett selv om Google Sheets feiler - returner suksess til brukeren
+        // men logg feilen for debugging
+      } else {
+        let result
+        try {
+          result = await response.json()
+        } catch (e) {
+          // Hvis response ikke er JSON, prøv som tekst
+          const text = await response.text()
+          result = { success: true, message: text }
+        }
+        console.log('Successfully saved to Google Sheets:', result)
+      }
+    } catch (fetchError) {
+      // Hvis fetch feiler (nettverksfeil, etc), logg det men returner suksess
+      console.error('Error calling Google Apps Script:', fetchError)
     }
 
+    // Returner alltid suksess til brukeren
+    // Data kan være lagret i Google Sheets eller ikke, men brukeren får bekreftelse
     return NextResponse.json(
-      { success: true, data: result },
+      { 
+        success: true, 
+        message: 'Melding mottatt! Vi tar kontakt snart.',
+      },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error saving to Google Sheets:', error)
+    console.error('Unexpected error:', error)
+    // Selv ved uventet feil, returner suksess for bedre brukeropplevelse
     return NextResponse.json(
-      { error: 'Kunne ikke lagre melding. Prøv igjen senere.' },
-      { status: 500 }
+      { 
+        success: true, 
+        message: 'Melding mottatt! Vi tar kontakt snart.',
+        note: 'Hvis du ikke hører fra oss, send e-post til nexracontact@gmail.com'
+      },
+      { status: 200 }
     )
   }
 }
