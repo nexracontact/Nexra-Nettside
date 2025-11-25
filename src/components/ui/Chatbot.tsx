@@ -12,12 +12,22 @@ interface Message {
 
 const N8N_WEBHOOK_URL = 'https://fredrikn05.app.n8n.cloud/webhook/3768e882-2c41-4d64-a68a-5bdfb4adab43/chat'
 
+// Generate a unique session ID
+function generateSessionId(): string {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0
+    const v = c === 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
+}
+
 export default function Chatbot() {
+  const [sessionId] = useState<string>(() => generateSessionId())
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hei! Jeg er Nexra sin AI-assistent. Hvordan kan jeg hjelpe deg i dag?',
+      text: 'Hei! Hvordan kan jeg hjelpe deg i dag?',
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -62,6 +72,7 @@ export default function Chatbot() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          sessionId: sessionId,
           message: userMessage.text,
           timestamp: userMessage.timestamp.toISOString(),
         }),
@@ -72,9 +83,12 @@ export default function Chatbot() {
       }
 
       const data = await response.json()
+      // n8n LangChain chat trigger returns response in output.text or output format
+      const botResponse = data.output?.text || data.output || data.text || data.message || data.response || 'Beklager, jeg forstod ikke det. Kan du prøve igjen?'
+      
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.response || data.message || 'Beklager, jeg forstod ikke det. Kan du prøve igjen?',
+        text: typeof botResponse === 'string' ? botResponse : JSON.stringify(botResponse),
         sender: 'bot',
         timestamp: new Date(),
       }
