@@ -7,6 +7,7 @@ import About from '@/components/sections/About'
 import Contact from '@/components/sections/Contact'
 import BackgroundParticles from '@/components/ui/BackgroundParticles'
 import BookingModal from '@/components/ui/BookingModal'
+import Chatbot from '@/components/ui/Chatbot'
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <About />
       <Contact />
       <BookingModal />
+      <Chatbot />
     </>
   )
 }

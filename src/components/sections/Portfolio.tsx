@@ -32,17 +32,17 @@ const projects: Project[] = [
   {
     id: '1',
     title: 'Prosjekt 1',
-    description: 'Kort beskrivelse av prosjektet.',
-    fullDescription: 'Dette er en lengre beskrivelse av prosjektet. Her kan du skrive mer detaljert om hva som ble bygget, utfordringene som ble løst, og hvordan løsningen fungerer. Du kan også inkludere informasjon om prosessen og samarbeidet med kunden.',
+    description: 'AI-chatbot for bedriftsautomasjon.',
+    fullDescription: 'Dette er en AI-chatbot vi har laget for å automatisere kundeservice og forbedre brukeropplevelsen. Chatboten kan håndtere vanlige spørsmål, gi rask support og lede kunder til riktig informasjon. Løsningen er bygget med moderne AI-teknologi og kan tilpasses etter bedriftens behov.',
     image: '/images/portfolio/prosjekt1.jpg',
     images: ['/images/portfolio/prosjekt1-2.jpg', '/images/portfolio/prosjekt1-3.jpg'], // Valgfritt: flere bilder
-    category: 'Nettside',
+    category: 'AI Chatbot',
     link: 'https://panorama-bowling-molde-e23b1e.webflow.io/',
-    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+    technologies: ['Next.js', 'TypeScript', 'AI/ML', 'OpenAI'],
     results: [
-      'Økt konvertering med 40%',
-      'Redusert laste tid med 60%',
-      'Forbedret brukeropplevelse betydelig',
+      'Automatiserer kundeservice 24/7',
+      'Reduserer svartid betydelig',
+      'Forbedret kundetilfredshet',
     ],
     video: {
       src: '/videos/Nexra Chatbot Video.mp4',

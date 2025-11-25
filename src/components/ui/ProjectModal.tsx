@@ -77,14 +77,15 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
           {/* Main image or video */}
           <div className="relative w-full overflow-hidden rounded-t-2xl">
             {project.video ? (
-              <div className="relative">
+              <div className="relative w-full">
                 <VideoPlayer
                   youtubeId={project.video.youtubeId}
                   vimeoId={project.video.vimeoId}
                   src={project.video.src}
                   poster={project.video.poster || project.image}
                   controls={true}
-                  className="rounded-t-2xl"
+                  aspectRatio="16/9"
+                  className="rounded-t-2xl w-full"
                 />
                 <div className="absolute top-4 left-4 z-10">
                   <span className="px-3 py-1 rounded-full text-xs font-semibold bg-dark-card/80 backdrop-blur-sm text-neon-cyan border border-neon-cyan/30">
