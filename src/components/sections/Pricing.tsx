@@ -102,7 +102,7 @@ export default function Pricing() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ y: -8, scale: 1.02 }}
-              className={`glass rounded-2xl p-8 relative ${
+              className={`glass rounded-2xl p-8 relative flex flex-col h-full ${
                 tier.popular
                   ? 'border-2 border-neon-cyan/50 neon-glow-cyan scale-105 md:scale-110'
                   : 'hover:border-neon-blue/50'
@@ -116,33 +116,35 @@ export default function Pricing() {
                 </div>
               )}
 
-              <h3 className="text-2xl font-heading font-bold mb-2 text-white">{tier.name}</h3>
-              {tier.price && (
-                <div className="mb-4">
-                  <span className="text-4xl font-heading font-bold bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">
-                    {tier.price}
-                  </span>
-                  {tier.price !== 'Kontakt oss' && (
-                    <span className="text-gray-400 text-sm ml-2">kr/mnd</span>
-                  )}
-                </div>
-              )}
-              <p className="text-gray-300 mb-6 text-sm">{tier.description}</p>
+              <div className="flex-grow">
+                <h3 className="text-2xl font-heading font-bold mb-2 text-white">{tier.name}</h3>
+                {tier.price && (
+                  <div className="mb-4">
+                    <span className="text-4xl font-heading font-bold bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">
+                      {tier.price}
+                    </span>
+                    {tier.price !== 'Kontakt oss' && (
+                      <span className="text-gray-400 text-sm ml-2">kr/mnd</span>
+                    )}
+                  </div>
+                )}
+                <p className="text-gray-300 mb-6 text-sm">{tier.description}</p>
 
-              <ul className="space-y-3 mb-8">
-                {tier.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start">
-                    <span className="text-neon-cyan mr-2 mt-1">✓</span>
-                    <span className="text-gray-300 text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
+                <ul className="space-y-3 mb-8">
+                  {tier.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <span className="text-neon-cyan mr-2 mt-1">✓</span>
+                      <span className="text-gray-300 text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
               <CTAButton
                 text={tier.cta}
                 variant={tier.popular ? 'primary' : 'secondary'}
                 onClick={openBookingModal}
-                className="w-full"
+                className="w-full mt-auto"
               />
             </motion.div>
           ))}
