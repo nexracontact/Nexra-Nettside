@@ -95,3 +95,8 @@ Hvis ingenting fungerer, sjekk:
 3. Network tab i browser
 4. Google Apps Script execution logs
 
+
+
+
+
+

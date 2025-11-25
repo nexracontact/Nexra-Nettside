@@ -18,6 +18,12 @@ interface Project {
   link?: string
   technologies?: string[]
   results?: string[]
+  video?: {
+    youtubeId?: string
+    vimeoId?: string
+    src?: string
+    poster?: string
+  }
 }
 
 // Legg til dine prosjekter her
@@ -38,6 +44,21 @@ const projects: Project[] = [
       'Redusert laste tid med 60%',
       'Forbedret brukeropplevelse betydelig',
     ],
+    // Video: For å legge inn video, fjern kommentarene under og bytt ut VIDEO_ID_HER med din video-ID
+    // Eksempel med YouTube (anbefalt):
+    // video: {
+    //   youtubeId: 'VIDEO_ID_HER', // Fra YouTube URL: https://www.youtube.com/watch?v=VIDEO_ID_HER
+    //   poster: '/images/portfolio/prosjekt1.jpg', // Valgfritt: thumbnail
+    // },
+    // Eksempel med Vimeo:
+    // video: {
+    //   vimeoId: 'VIDEO_ID_HER', // Fra Vimeo URL: https://vimeo.com/VIDEO_ID_HER
+    // },
+    // Eksempel med lokal video:
+    // video: {
+    //   src: '/videos/prosjekt1.mp4', // Filen må ligge i public/videos/
+    //   poster: '/images/portfolio/prosjekt1.jpg',
+    // },
   },
   {
     id: '2',

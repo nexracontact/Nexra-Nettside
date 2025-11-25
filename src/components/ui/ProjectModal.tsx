@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect } from 'react'
+import VideoPlayer from '@/components/ui/VideoPlayer'
 
 interface Project {
   id: string
@@ -15,6 +16,12 @@ interface Project {
   link?: string
   technologies?: string[]
   results?: string[]
+  video?: {
+    youtubeId?: string
+    vimeoId?: string
+    src?: string
+    poster?: string
+  }
 }
 
 interface ProjectModalProps {
@@ -67,26 +74,46 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             </svg>
           </button>
 
-          {/* Main image */}
-          <div className="relative h-64 md:h-96 w-full overflow-hidden rounded-t-2xl">
-            {project.image ? (
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover"
-                priority
-              />
+          {/* Main image or video */}
+          <div className="relative w-full overflow-hidden rounded-t-2xl">
+            {project.video ? (
+              <div className="relative">
+                <VideoPlayer
+                  youtubeId={project.video.youtubeId}
+                  vimeoId={project.video.vimeoId}
+                  src={project.video.src}
+                  poster={project.video.poster || project.image}
+                  controls={true}
+                  className="rounded-t-2xl"
+                />
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-dark-card/80 backdrop-blur-sm text-neon-cyan border border-neon-cyan/30">
+                    {project.category}
+                  </span>
+                </div>
+              </div>
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 flex items-center justify-center">
-                <span className="text-gray-400">Ingen bilde</span>
+              <div className="relative h-64 md:h-96 w-full">
+                {project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 flex items-center justify-center">
+                    <span className="text-gray-400">Ingen bilde</span>
+                  </div>
+                )}
+                <div className="absolute top-4 left-4">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-dark-card/80 backdrop-blur-sm text-neon-cyan border border-neon-cyan/30">
+                    {project.category}
+                  </span>
+                </div>
               </div>
             )}
-            <div className="absolute top-4 left-4">
-              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-dark-card/80 backdrop-blur-sm text-neon-cyan border border-neon-cyan/30">
-                {project.category}
-              </span>
-            </div>
           </div>
 
           {/* Content */}

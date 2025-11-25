@@ -11,40 +11,11 @@ interface Result {
   description: string
 }
 
-interface Testimonial {
-  name: string
-  role: string
-  company: string
-  text: string
-  image?: string
-}
-
 const results: Result[] = [
   { label: 'Økt inntekt', value: 250, suffix: '%', description: 'Gjennomsnittlig økning i konvertering' },
   { label: 'Tidsbesparelse', value: 40, suffix: ' timer/uke', description: 'Frigjort tid per ansatt' },
   { label: 'Nye leads', value: 500, suffix: '+', description: 'Månedlige kvalifiserte leads' },
   { label: 'Svartid', value: 2, suffix: ' min', description: 'Gjennomsnittlig svar på kundeforespørsler' },
-]
-
-const testimonials: Testimonial[] = [
-  {
-    name: 'Sarah Hansen',
-    role: 'CEO',
-    company: 'TechGrowth AS',
-    text: 'Nexra har transformert hvordan vi håndterer kundeservice. Vi sparer 30 timer i uken og kundene våre er mer fornøyde enn noen gang.',
-  },
-  {
-    name: 'Marius Olsen',
-    role: 'Markedsføringssjef',
-    company: 'InnovateNow',
-    text: 'AI-automatiseringen vår har økt lead-genereringen med over 400%. Dette er fremtiden, og Nexra leverer.',
-  },
-  {
-    name: 'Emma Berg',
-    role: 'Operasjonsdirektør',
-    company: 'ScaleUp Solutions',
-    text: 'Workflow-integrasjonene har eliminert manuelt arbeid i våre prosesser. Vi kan nå fokusere på vekst i stedet for rutiner.',
-  },
 ]
 
 export default function CaseStudies() {
@@ -141,42 +112,6 @@ export default function CaseStudies() {
             </ul>
           </div>
         </motion.div>
-
-        {/* Testimonials */}
-        <div>
-          <motion.h3
-            className="text-3xl font-heading font-bold text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Hva kundene våre sier
-          </motion.h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
-                className="glass rounded-2xl p-6 hover:border-neon-purple/50 transition-all duration-300"
-              >
-                <p className="text-gray-300 mb-6 italic leading-relaxed">&quot;{testimonial.text}&quot;</p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center text-white font-semibold">
-                    {testimonial.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white">{testimonial.name}</p>
-                    <p className="text-sm text-gray-400">
-                      {testimonial.role}, {testimonial.company}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   )

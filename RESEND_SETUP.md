@@ -74,3 +74,8 @@ For å bruke din egen e-postadresse (f.eks. `kontakt@nexra.no` i stedet for `onb
 ✅ Dashboard for å se alle e-poster
 ✅ Ingen database nødvendig - alt sendes direkte til e-post
 
+
+
+
+
+
