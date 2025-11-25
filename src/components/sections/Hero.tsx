@@ -90,12 +90,6 @@ export default function Hero() {
               onClick={openBookingModal}
               className="w-full sm:w-auto"
             />
-            <CTAButton
-              text="Få en AI-analyse av bedriften"
-              variant="secondary"
-              onClick={openBookingModal}
-              className="w-full sm:w-auto"
-            />
           </motion.div>
         </motion.div>
       </div>

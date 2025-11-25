@@ -32,7 +32,7 @@ export default function Contact() {
             Klar for å automatisere?
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Ta første steg mot mer tid, mindre arbeid og større vekst. Book et gratis møte eller få en AI-analyse av bedriften din.
+            Ta første steg mot mer tid, mindre arbeid og større vekst. Book et gratis møte i dag.
           </p>
         </motion.div>
 
@@ -46,12 +46,6 @@ export default function Contact() {
             <CTAButton
               text="Book gratis møte"
               variant="primary"
-              onClick={openBookingModal}
-              className="w-full sm:w-auto"
-            />
-            <CTAButton
-              text="Få en AI-analyse av bedriften"
-              variant="secondary"
               onClick={openBookingModal}
               className="w-full sm:w-auto"
             />

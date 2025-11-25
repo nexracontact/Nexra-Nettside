@@ -2,20 +2,17 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import AnimatedCounter from '@/components/ui/AnimatedCounter'
 
 interface Result {
-  label: string
-  value: number
-  suffix: string
+  title: string
   description: string
 }
 
 const results: Result[] = [
-  { label: 'Økt inntekt', value: 250, suffix: '%', description: 'Gjennomsnittlig økning i konvertering' },
-  { label: 'Tidsbesparelse', value: 40, suffix: ' timer/uke', description: 'Frigjort tid per ansatt' },
-  { label: 'Nye leads', value: 500, suffix: '+', description: 'Månedlige kvalifiserte leads' },
-  { label: 'Svartid', value: 2, suffix: ' min', description: 'Gjennomsnittlig svar på kundeforespørsler' },
+  { title: 'Økt inntekt', description: 'Økt inntekt etter konvertering' },
+  { title: 'Tidsbesparelse', description: 'Sparer mange timer i løpet av uken' },
+  { title: 'Nye leads', description: 'Månedlige kvalifiserte leads' },
+  { title: 'Svartid', description: 'Rask svar på kundeforespørsler' },
 ]
 
 export default function CaseStudies() {
@@ -46,17 +43,14 @@ export default function CaseStudies() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {results.map((result, index) => (
             <motion.div
-              key={result.label}
+              key={result.title}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="glass rounded-2xl p-8 text-center hover:border-neon-cyan/50 transition-all duration-300"
             >
-              <div className="text-5xl font-heading font-bold bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent mb-2">
-                <AnimatedCounter value={result.value} suffix={result.suffix} />
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{result.label}</h3>
-              <p className="text-sm text-gray-400">{result.description}</p>
+              <h3 className="text-xl font-heading font-bold text-white mb-3">{result.title}</h3>
+              <p className="text-sm text-gray-400 leading-relaxed">{result.description}</p>
             </motion.div>
           ))}
         </div>
