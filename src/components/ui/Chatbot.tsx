@@ -10,7 +10,7 @@ interface Message {
   timestamp: Date
 }
 
-const N8N_WEBHOOK_URL = 'https://fredrikn05.app.n8n.cloud/webhook/3768e882-2c41-4d64-a68a-5bdfb4adab43/chat'
+const N8N_WEBHOOK_URL = 'https://fredrikn05.app.n8n.cloud/webhook/446ed60f-b5c9-4ef5-87be-28760eaff3b9'
 
 // Generate a unique session ID
 function generateSessionId(): string {
