@@ -6,7 +6,7 @@ import CTAButton from '@/components/ui/CTAButton'
 
 interface PricingTier {
   name: string
-  price: string
+  price: string | null
   description: string
   features: string[]
   popular?: boolean
@@ -16,50 +16,49 @@ interface PricingTier {
 const pricingTiers: PricingTier[] = [
   {
     name: 'Starter',
-    price: '15 000',
+    price: null,
     description: 'Perfekt for små bedrifter som trenger en profesjonell nettside',
     features: [
+      'Nettside',
       'Moderne, responsiv nettside',
-      'Opptil 5 sider',
-      'Kontaktskjema og booking',
+      'Vedlikehold & oppdatering',
+      'Support 24/7',
       'SEO-optimalisering',
-      'Mobiloptimalisert',
-      'Grunnleggende support',
+      'Kontaktskjema og booking',
       'AI-automasjon kan legges til (tillegg)',
     ],
     cta: 'Book gratis møte',
   },
   {
-    name: 'Growth',
-    price: '35 000',
+    name: 'Full Pakke',
+    price: null,
     description: 'For vekstbedrifter som trenger en kraftig nettside med AI-automasjon',
     features: [
-      'Alt i Starter, pluss:',
-      'Opptil 15 sider',
-      'AI-chatbot for kundeservice',
-      'Automatiserte salgsfunneller',
-      'Integrasjon med CRM og markedsføringstools',
+      'Moderne, responsiv nettside',
       'Avansert SEO og konverteringsoptimalisering',
+      'Full AI Automatisering av din nettside',
+      'Opp til 15 sider',
+      'AI-chatbot for kundeservice',
       'Prioritert support og oppfølging',
     ],
     popular: true,
     cta: 'Snakk med en ekspert nå',
   },
   {
-    name: 'Enterprise',
-    price: 'Kontakt oss',
-    description: 'Komplett løsning for store bedrifter med avanserte behov',
+    name: 'Tilpasset',
+    price: null,
+    description: 'Få en fullstendig pakke tilpasset perfekt for deg eller din bedrift!',
     features: [
-      'Alt i Growth, pluss:',
+      'Alt i Full Pakke, pluss:',
       'Ubegrenset antall sider',
       'Tilpasset webapplikasjon',
       'Fullstendig AI-automasjon',
       'Tilpassede AI-modeller og chatbots',
-      'Dedikert team av eksperter',
       '24/7 support og monitoring',
       'Kontinuerlig forbedring og optimalisering',
+      'Hva enn du skulle ønske fikser vi!',
     ],
-    cta: 'Få en tilbud',
+    cta: 'Book gratis møte',
   },
 ]
 
@@ -118,14 +117,16 @@ export default function Pricing() {
               )}
 
               <h3 className="text-2xl font-heading font-bold mb-2 text-white">{tier.name}</h3>
-              <div className="mb-4">
-                <span className="text-4xl font-heading font-bold bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">
-                  {tier.price}
-                </span>
-                {tier.price !== 'Kontakt oss' && (
-                  <span className="text-gray-400 text-sm ml-2">kr/mnd</span>
-                )}
-              </div>
+              {tier.price && (
+                <div className="mb-4">
+                  <span className="text-4xl font-heading font-bold bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">
+                    {tier.price}
+                  </span>
+                  {tier.price !== 'Kontakt oss' && (
+                    <span className="text-gray-400 text-sm ml-2">kr/mnd</span>
+                  )}
+                </div>
+              )}
               <p className="text-gray-300 mb-6 text-sm">{tier.description}</p>
 
               <ul className="space-y-3 mb-8">
